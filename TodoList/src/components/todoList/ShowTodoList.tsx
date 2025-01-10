@@ -1,7 +1,6 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {FC, useState} from 'react';
 import {TodoListModel} from '../../models/TodoModel';
-import {TextInput} from 'react-native-gesture-handler';
 import TodoItem from './TodoItem';
 import EditTodoList from './EditTodoList';
 
@@ -9,7 +8,7 @@ interface Props {
   item: TodoListModel;
   deleteTodo: (id: number) => void;
   doneTodo: (id: number) => void;
-  editTodo: (id: number) => void;
+  editTodo: (id: number, content: string) => void;
 }
 
 const ShowTodoList: FC<Props> = props => {
@@ -22,7 +21,7 @@ const ShowTodoList: FC<Props> = props => {
   };
 
   return status ? (
-    <EditTodoList cancelEdit={changeStatus} />
+    <EditTodoList cancelEdit={changeStatus} item={item} saveEdit={editTodo} />
   ) : (
     <TodoItem
       deleteTodo={deleteTodo}

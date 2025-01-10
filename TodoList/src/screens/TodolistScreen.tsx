@@ -25,6 +25,10 @@ const TodolistScreen = () => {
   //   }
   // };
 
+  useEffect(() => {
+    getTodo();
+  }, []);
+
   const addTodo = async () => {
     // const temp = todo;
     // temp.unshift({
@@ -48,9 +52,18 @@ const TodolistScreen = () => {
     }
   };
 
-  // useEffect(() => {
-  //   getTodo();
-  // }, []);
+  const saveNewData = async (id: number) => {
+    let temp = todo.map(idd => {
+      return idd.id == id
+        ? {
+            ...idd,
+            content: contentInput,
+          }
+        : idd;
+    });
+    await AsyncStorage.setItem('todo', JSON.stringify(temp));
+    setTodo(temp);
+  };
 
   const getTodo = async () => {
     try {
@@ -85,7 +98,7 @@ const TodolistScreen = () => {
     }
   };
 
-  const doneTodo = (id: number) => {
+  const doneTodo = async (id: number) => {
     try {
       // const temp = todo.filter(idd => idd.id === id);
       // if (!temp[0].status) {
@@ -99,21 +112,36 @@ const TodolistScreen = () => {
       // console.log(temp, array, mang);
       // setTodo(mang);
       let temp = todo.map(idd =>
-        idd.id === id
-          ? {
-              ...idd,
-              status: !idd.status,
-            }
-          : idd,
+        //
+        {
+          return idd.id === id
+            ? {
+                ...idd,
+                status: !idd.status,
+              }
+            : idd;
+        },
       );
+      await AsyncStorage.setItem('todo', JSON.stringify(temp));
       setTodo(temp);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const editTodo = async (id: number) => {
+  const editTodo = async (id: number, content: string) => {
     try {
+      let temp = todo.map(idd => {
+        return idd.id === id
+          ? {
+              ...idd,
+              content: content,
+            }
+          : idd;
+      });
+      // console.log(id, content);
+      await AsyncStorage.setItem('todo', JSON.stringify(temp));
+      setTodo(temp);
     } catch (error) {
       console.log(error);
     }
@@ -173,7 +201,7 @@ const TodolistScreen = () => {
         />
         <TouchableOpacity
           style={{
-            backgroundColor: '#e7d7c9',
+            backgroundColor: '#ffd3b9',
             alignSelf: 'flex-start',
             alignItems: 'center',
             justifyContent: 'center',
@@ -193,7 +221,7 @@ const TodolistScreen = () => {
         <TouchableOpacity
           onPress={removeAllTodo}
           style={{
-            backgroundColor: '#514438',
+            backgroundColor: '#c45258',
             padding: 10,
             borderRadius: 10,
             alignItems: 'center',
@@ -219,7 +247,9 @@ const TodolistScreen = () => {
                   item={item}
                   deleteTodo={(id: number) => deleteTodo(id)}
                   doneTodo={(id: number) => doneTodo(id)}
-                  editTodo={() => {}}
+                  editTodo={(id: number, content: string) =>
+                    editTodo(id, content)
+                  }
                 />
               </View>
             );
