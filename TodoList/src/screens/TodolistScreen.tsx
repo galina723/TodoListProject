@@ -40,13 +40,15 @@ const TodolistScreen = () => {
     // setContentInput('');
     try {
       const temp = todo;
-      temp.unshift({
-        id: Math.random(),
-        content: contentInput,
-        status: false,
-      });
-      await AsyncStorage.setItem('todo', JSON.stringify(temp));
-      setContentInput('');
+      if (contentInput) {
+        temp.unshift({
+          id: Math.random(),
+          content: contentInput,
+          status: false,
+        });
+        await AsyncStorage.setItem('todo', JSON.stringify(temp));
+        setContentInput('');
+      }
     } catch (error: any) {
       console.log(error);
     }
@@ -68,7 +70,7 @@ const TodolistScreen = () => {
   const getTodo = async () => {
     try {
       const temp = await AsyncStorage.getItem('todo');
-      if (temp !== null) {
+      if (temp) {
         setTodo(JSON.parse(temp));
       }
     } catch (error: any) {

@@ -68,7 +68,7 @@ const TodoItem: FC<Props> = props => {
               justifyContent: 'center',
             }}
             onPress={() => editTodo(item.id)}>
-            <Edit size="20" color="#8a7791" />
+            <Edit size="20" color="orange" />
           </TouchableOpacity>
 
           <TouchableOpacity

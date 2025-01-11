@@ -1,7 +1,7 @@
 import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {TodoListModel} from '../../models/TodoModel';
-import {Save2} from 'iconsax-react-native';
+import {CloseCircle, Save2} from 'iconsax-react-native';
 
 interface Props {
   item: TodoListModel;
@@ -19,70 +19,64 @@ const EditTodoList: FC<Props> = props => {
     }
   }, [item]);
   const saveData = () => {
-    saveEdit(item.id, newContent);
-    cancelEdit();
+    if (newContent) {
+      saveEdit(item.id, newContent);
+      cancelEdit();
+    }
   };
 
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        backgroundColor: '#e7d7c9',
+        padding: 4,
+      }}>
       <TextInput
         style={{
           backgroundColor: 'white',
           borderRadius: 10,
           flex: 1,
           padding: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
         onChangeText={text => setNewContent(text)}
         placeholder="Add todo"
         value={newContent}
       />
-      {/* <TouchableOpacity
+      <View
         style={{
-          backgroundColor: '#e7d7c9',
-          alignSelf: 'flex-start',
-          alignItems: 'center',
+          flexDirection: 'row',
           justifyContent: 'center',
-          borderRadius: 10,
-        }}
-        onPress={() => {
-          saveData();
+          alignItems: 'center',
+          gap: 8,
         }}>
-        <Text
+        <TouchableOpacity
           style={{
-            padding: 12,
+            borderRadius: 10,
+          }}
+          onPress={() => {
+            saveData();
+          }}>
+          <Save2 size="24" color="#555555" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            alignSelf: 'flex-start',
             alignItems: 'center',
             justifyContent: 'center',
+            borderRadius: 10,
+          }}
+          onPress={() => {
+            cancelEdit();
           }}>
-          Save
-        </Text>
-      </TouchableOpacity> */}
-      <Save2
-        size="24"
-        color="#555555"
-        onPress={() => {
-          saveData();
-        }}
-      />
-      <TouchableOpacity
-        style={{
-          backgroundColor: '#e7d7c9',
-          alignSelf: 'flex-start',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: 10,
-        }}
-        onPress={() => {
-          cancelEdit();
-        }}>
-        <Text
-          style={{
-            padding: 12,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          Cancel
-        </Text>
-      </TouchableOpacity>
+          <CloseCircle size="24" color="red" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
