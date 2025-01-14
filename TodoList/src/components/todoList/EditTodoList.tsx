@@ -52,7 +52,7 @@ const EditTodoList: FC<Props> = props => {
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: 8,
+          gap: 23,
         }}>
         <TouchableOpacity
           style={{

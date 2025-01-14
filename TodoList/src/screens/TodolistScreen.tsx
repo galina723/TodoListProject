@@ -10,9 +10,13 @@ import {
 import {TodoListModel} from '../models/TodoModel';
 import ShowTodoList from '../components/todoList/ShowTodoList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Status} from 'iconsax-react-native';
+import {Add, Status} from 'iconsax-react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 const TodolistScreen = () => {
+  const route: any = useRoute();
+  const {refresh} = route.params;
+
   const [todo, setTodo] = useState<TodoListModel[]>([]);
   // const [todoItem, setTodoItem] = useState<TodoListModel>();
   const [contentInput, setContentInput] = useState<string>('');
@@ -27,17 +31,11 @@ const TodolistScreen = () => {
 
   useEffect(() => {
     getTodo();
-  }, []);
+  }, [refresh]);
+
+  const navigator: any = useNavigation();
 
   const addTodo = async () => {
-    // const temp = todo;
-    // temp.unshift({
-    //   id: Math.random(),
-    //   content: contentInput,
-    // });
-    // // console.log(temp);
-    // setTodo(temp);
-    // setContentInput('');
     try {
       const temp = todo;
       if (contentInput) {
@@ -70,6 +68,7 @@ const TodolistScreen = () => {
   const getTodo = async () => {
     try {
       const temp = await AsyncStorage.getItem('todo');
+      // console.log('aaa', temp);
       if (temp) {
         setTodo(JSON.parse(temp));
       }
@@ -102,17 +101,6 @@ const TodolistScreen = () => {
 
   const doneTodo = async (id: number) => {
     try {
-      // const temp = todo.filter(idd => idd.id === id);
-      // if (!temp[0].status) {
-      //   temp[0].status = true;
-      // } else {
-      //   temp[0].status = false;
-      // }
-      // !temp[0].status ? temp[0].status = true : temp[0].status = false;
-      // const array = todo.filter(idd => idd.id !== id);
-      // const mang = array.concat(temp);
-      // console.log(temp, array, mang);
-      // setTodo(mang);
       let temp = todo.map(idd =>
         //
         {
@@ -149,43 +137,36 @@ const TodolistScreen = () => {
     }
   };
 
-  // function deleteTodo(id: number) {
-  //   let temp = [];
-  //   temp = todo.filter(idd => idd.id !== id);
-  //   setTodo(temp);
-  //   console.log(temp);
-  // }
-
-  const renderTodoItem = useCallback((item: TodoListModel) => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          gap: 16,
-          backgroundColor: '#e0e0e0',
-          borderRadius: 10,
-        }}>
-        <Text style={{fontSize: 24, flex: 1}}>{item.content}</Text>
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#e8e8e8',
-            alignSelf: 'flex-start',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onPress={() => deleteTodo(item.id)}>
-          <Text
-            style={{
-              padding: 5,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            Delete
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }, []);
+  // const renderTodoItem = useCallback((item: TodoListModel) => {
+  //   return (
+  //     <View
+  //       style={{
+  //         flexDirection: 'row',
+  //         gap: 16,
+  //         backgroundColor: '#e0e0e0',
+  //         borderRadius: 10,
+  //       }}>
+  //       <Text style={{fontSize: 24, flex: 1}}>{item.content}</Text>
+  //       <TouchableOpacity
+  //         style={{
+  //           backgroundColor: '#e8e8e8',
+  //           alignSelf: 'flex-start',
+  //           alignItems: 'center',
+  //           justifyContent: 'center',
+  //         }}
+  //         onPress={() => deleteTodo(item.id)}>
+  //         <Text
+  //           style={{
+  //             padding: 5,
+  //             alignItems: 'center',
+  //             justifyContent: 'center',
+  //           }}>
+  //           Delete
+  //         </Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // }, []);
 
   return (
     <View style={{flexDirection: 'column', gap: 16, padding: 16, flex: 1}}>
@@ -198,7 +179,7 @@ const TodolistScreen = () => {
             padding: 10,
           }}
           onChangeText={handleTextChange}
-          placeholder="Add todo"
+          placeholder="Add "
           value={contentInput}
         />
         <TouchableOpacity
@@ -272,6 +253,18 @@ const TodolistScreen = () => {
             })}
           </View> */}
       </View>
+      <TouchableOpacity
+        style={{
+          alignSelf: 'flex-end',
+          position: 'absolute',
+          bottom: 10,
+          right: 10,
+          borderRadius: 30,
+          backgroundColor: 'red',
+        }}
+        onPress={() => navigator.navigate('AddTodoList')}>
+        <Add size="32" color="white" />
+      </TouchableOpacity>
     </View>
   );
 };

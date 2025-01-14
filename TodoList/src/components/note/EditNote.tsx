@@ -14,6 +14,7 @@ const EditNote: FC<Props> = ({item, toggleEdit}) => {
   const saveEdit = () => {
     if (newContent) {
       item.content = newContent;
+      toggleEdit();
     }
   };
 

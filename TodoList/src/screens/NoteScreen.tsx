@@ -3,14 +3,21 @@ import {View, Text, TouchableOpacity, TextInput, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ShowNote from '../components/note/ShowNote';
 import {NoteModel} from '../models/NoteModel';
+import {Add} from 'iconsax-react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 const NoteScreen = () => {
+  const navigator: any = useNavigation();
+
+  const route: any = useRoute();
+  const {refresh} = route.params;
+
   const [note, setNote] = useState<NoteModel[]>([]);
   const [contentInput, setContentInput] = useState<string>('');
 
   useEffect(() => {
     getNote();
-  }, []);
+  }, [refresh]);
 
   const addNote = async () => {
     try {
@@ -87,10 +94,23 @@ const NoteScreen = () => {
       <FlatList
         data={note}
         keyExtractor={item => item.id.toString()}
+        ItemSeparatorComponent={() => <View style={{height: 10}} />}
         renderItem={({item}) => (
           <ShowNote item={item} removeSingleNote={removeSingleNote} />
         )}
       />
+      <TouchableOpacity
+        style={{
+          position: 'absolute',
+          bottom: 10,
+          right: 10,
+          borderRadius: 50,
+          backgroundColor: '#e7d7c9',
+          padding: 10,
+        }}
+        onPress={() => navigator.navigate('AddNote')}>
+        <Add size="32" color="#FF8A65" />
+      </TouchableOpacity>
     </View>
   );
 };

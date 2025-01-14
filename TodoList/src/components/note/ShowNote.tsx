@@ -1,4 +1,3 @@
-import {View} from 'react-native';
 import React, {FC, useState} from 'react';
 import {NoteModel} from '../../models/NoteModel';
 import EditNote from './EditNote';
@@ -7,12 +6,9 @@ import NoteItem from './NoteItem';
 interface Props {
   item: NoteModel;
   removeSingleNote: (id: number) => void;
-  editNote: (id: number, content: string) => void;
 }
 
-const ShowNote: FC<Props> = props => {
-  const {item, removeSingleNote, editNote} = props;
-
+const ShowNote: FC<Props> = ({item, removeSingleNote}) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => {
@@ -20,7 +16,7 @@ const ShowNote: FC<Props> = props => {
   };
 
   return isEditing ? (
-    <EditNote item={item} saveEdit={editNote} toggleEdit={toggleEdit} />
+    <EditNote item={item} toggleEdit={toggleEdit} />
   ) : (
     <NoteItem
       item={item}
