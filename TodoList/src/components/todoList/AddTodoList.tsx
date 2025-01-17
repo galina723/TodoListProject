@@ -4,7 +4,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import {Save2, CloseCircle, AddCircle} from 'iconsax-react-native';
 import {TodoListModel} from '../../models/TodoModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 
 const AddTodoList = () => {
   const navigator: any = useNavigation();
@@ -31,16 +31,27 @@ const AddTodoList = () => {
   // };
   const addTodo = async () => {
     try {
-      const temp = todo;
+      const temp = await AsyncStorage.getItem('todo');
+      const parsedTodo = temp ? JSON.parse(temp) : [];
       if (contentInput) {
-        temp.unshift({
+        parsedTodo.unshift({
           id: Math.random(),
           content: contentInput,
           status: false,
         });
-        await AsyncStorage.setItem('todo', JSON.stringify(temp));
+        await AsyncStorage.setItem('todo', JSON.stringify(parsedTodo));
         setContentInput('');
-        navigator.replace('TodolistScreen', {refresh: true});
+        navigator.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'TodolistScreen',
+                params: {refresh: true},
+              },
+            ],
+          }),
+        );
       }
     } catch (error: any) {
       console.log(error);
