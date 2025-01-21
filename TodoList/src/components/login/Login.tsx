@@ -131,14 +131,14 @@ const Login = () => {
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
                 alignItems: 'center',
-                padding: 16, // Optional padding for spacing from the edges
+                padding: 2, // Optional padding for spacing from the edges
               }}>
               <TouchableOpacity
                 style={{
                   backgroundColor: 'green',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  paddingVertical: 12,
+                  paddingVertical: 8,
                   paddingHorizontal: 16,
                   borderRadius: 8,
                   marginRight: 8, // Space between the buttons
@@ -151,7 +151,7 @@ const Login = () => {
                   backgroundColor: '#e7d7c9',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  paddingVertical: 12,
+                  paddingVertical: 8,
                   paddingHorizontal: 16,
                   borderRadius: 8,
                 }}

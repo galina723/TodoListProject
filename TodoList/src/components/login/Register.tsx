@@ -65,7 +65,6 @@ const Register = () => {
   return (
     <View>
       {/* <Text>{logo}</Text> */}
-
       {/* <FlatList
               data={linkAPI}
               keyExtractor={item => item.id.toString()}
@@ -76,11 +75,15 @@ const Register = () => {
         <TouchableOpacity onPress={() => navigator.goBack()}>
           <Back size="32" color="#FF8A65" />
         </TouchableOpacity>
-        <Text>Register</Text>
+        <Text style={{fontSize: 23, fontWeight: 'bold', color: 'black'}}>
+          Register
+        </Text>
       </View>
 
       <View style={{flexDirection: 'column', gap: 16, padding: 18}}>
-        <Text>User Name</Text>
+        <Text>
+          User Name <Text style={{color: 'red'}}>*</Text>
+        </Text>
         <TextInput
           style={{
             borderWidth: 1,
@@ -90,7 +93,9 @@ const Register = () => {
           onChangeText={text => {
             setUserName(text);
           }}></TextInput>
-        <Text>Full Name</Text>
+        <Text>
+          Full Name <Text style={{color: 'red'}}>*</Text>
+        </Text>
         <TextInput
           style={{
             borderWidth: 1,
@@ -100,11 +105,14 @@ const Register = () => {
           onChangeText={text => {
             setFullName(text);
           }}></TextInput>
-        <Text>Password</Text>
+        <Text>
+          Password <Text style={{color: 'red'}}>*</Text>
+        </Text>
         <TextInput
           style={{
             borderWidth: 1,
             color: 'black',
+            backgroundColor: 'white',
           }}
           value={pass}
           autoCapitalize="none"
@@ -112,11 +120,14 @@ const Register = () => {
           onChangeText={text => {
             setPass(text);
           }}></TextInput>
-        <Text>Confirm Password</Text>
+        <Text>
+          Confirm Password <Text style={{color: 'red'}}>*</Text>
+        </Text>
         <TextInput
           style={{
             borderWidth: 1,
             color: 'black',
+            backgroundColor: 'white',
           }}
           value={confirmPass}
           autoCapitalize="none"
@@ -124,12 +135,19 @@ const Register = () => {
           onChangeText={text => {
             setConfirmPass(text);
           }}></TextInput>
-        <TouchableOpacity
-          style={{backgroundColor: 'green', justifyContent: 'flex-end'}}
-          onPress={addUser}>
-          <Text>Register</Text>
-        </TouchableOpacity>
-        <Text style={{color: 'red'}}>{warn}</Text>
+        <View>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#94BCEB',
+              alignSelf: 'flex-end',
+              padding: 12,
+              borderRadius: 14,
+            }}
+            onPress={addUser}>
+            <Text>Register</Text>
+          </TouchableOpacity>
+          <Text style={{color: 'red'}}>{warn}</Text>
+        </View>
       </View>
     </View>
   );

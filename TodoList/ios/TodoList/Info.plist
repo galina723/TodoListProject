@@ -48,5 +48,18 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Vị trí của bạn được sử dụng cho mục đích chấm công, chúng tôi không lưu trữ và chia
+		sẻ thông tin này cho bất kỳ bên nào khác</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Vị trí của bạn được sử dụng cho mục đích chấm công, chúng tôi không lưu trữ và chia
+		sẻ thông tin này cho bất kỳ bên nào khác</string>
+	<key>NSLocationWhenInUsageDescription</key>
+	<string>Vị trí của bạn được sử dụng cho mục đích chấm công, chúng tôi không lưu trữ và chia
+		sẻ thông tin này cho bất kỳ bên nào khác</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Vị trí của bạn được sử dụng cho mục đích chấm công, chúng tôi không lưu trữ và chia
+		sẻ thông tin này cho bất kỳ bên nào khác</string>
+
 </dict>
 </plist>

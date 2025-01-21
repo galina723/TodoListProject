@@ -12,6 +12,7 @@ import ShowTodoList from '../components/todoList/ShowTodoList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Add, Status} from 'iconsax-react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDebounce} from '../hook/UseDebounce';
 
 const TodolistScreen = () => {
   const route: any = useRoute();
@@ -253,7 +254,7 @@ const TodolistScreen = () => {
             })}
           </View> */}
       </View>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{
           alignSelf: 'flex-end',
           position: 'absolute',
@@ -264,7 +265,7 @@ const TodolistScreen = () => {
         }}
         onPress={() => navigator.navigate('AddTodoList')}>
         <Add size="32" color="white" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

@@ -4,7 +4,7 @@ import {NoteModel} from '../../models/NoteModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TextInput} from 'react-native-gesture-handler';
 import {Add} from 'iconsax-react-native';
-import {useNavigation} from '@react-navigation/native';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 
 const AddNote = () => {
   const navigator: any = useNavigation();
@@ -14,15 +14,29 @@ const AddNote = () => {
 
   const addNote = async () => {
     try {
-      const temp = note;
-      temp.unshift({
-        id: Math.random(),
-        content: contentInput,
-      });
-      await AsyncStorage.setItem('note', JSON.stringify(temp));
-      setContentInput('');
-      navigator.replace('NoteScreen', {refresh: true});
-    } catch (error) {
+      const temp = await AsyncStorage.getItem('note');
+      const parsedNote = temp ? JSON.parse(temp) : [];
+      if (contentInput) {
+        parsedNote.unshift({
+          id: Math.random(),
+          content: contentInput,
+          status: false,
+        });
+        await AsyncStorage.setItem('note', JSON.stringify(parsedNote));
+        setContentInput('');
+        navigator.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'NoteScreen',
+                params: {refresh: true},
+              },
+            ],
+          }),
+        );
+      }
+    } catch (error: any) {
       console.log(error);
     }
   };

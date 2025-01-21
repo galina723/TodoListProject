@@ -14,7 +14,7 @@ interface Props {
 }
 
 const TodoItem: FC<Props> = props => {
-  const navigator: any = useNavigation();
+  //const navigator: any = useNavigation();
   const {item, deleteTodo, doneTodo, editTodo} = props;
 
   const showAlert = () => {
@@ -39,13 +39,6 @@ const TodoItem: FC<Props> = props => {
         borderRadius: 10,
       }}>
       <TouchableOpacity
-        onPress={() => {
-          doneTodo(item.id);
-          navigator.navigate('TodoListDetail', {
-            id: item.id,
-            content: item.content,
-          });
-        }}
         style={{
           padding: 10,
           borderRadius: 10,
@@ -54,10 +47,11 @@ const TodoItem: FC<Props> = props => {
           gap: 15,
           alignItems: 'center',
           justifyContent: 'center',
-        }}>
+        }}
+        onPress={() => doneTodo(item.id)}>
         <Text
           style={{
-            // textDecorationLine: item.status ? 'line-through' : 'none',
+            textDecorationLine: item.status ? 'line-through' : 'none',
             fontSize: 16,
             padding: 2,
             flex: 1,
