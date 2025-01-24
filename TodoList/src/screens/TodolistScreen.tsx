@@ -12,6 +12,8 @@ import ShowTodoList from '../components/todoList/ShowTodoList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Add, Status} from 'iconsax-react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDebounce} from '../hook/UseDebounce';
+import {Database} from '../helpers/database';
 
 const TodolistScreen = () => {
   const route: any = useRoute();
@@ -39,17 +41,30 @@ const TodolistScreen = () => {
     try {
       const temp = todo;
       if (contentInput) {
+        const id = Math.random();
+
         temp.unshift({
-          id: Math.random(),
+          id,
           content: contentInput,
           status: false,
         });
+        const data1 = [id.toString(), contentInput, 'false'];
+        await insertUserToDB(data1);
         await AsyncStorage.setItem('todo', JSON.stringify(temp));
         setContentInput('');
       }
     } catch (error: any) {
       console.log(error);
     }
+  };
+
+  const insertUserToDB = async (data: any[]) => {
+    const result = await Database.insertTable(
+      'todo',
+      data,
+      'id, content, status',
+    );
+    //console.log(result);
   };
 
   const saveNewData = async (id: number) => {
@@ -67,10 +82,14 @@ const TodolistScreen = () => {
 
   const getTodo = async () => {
     try {
-      const temp = await AsyncStorage.getItem('todo');
+      // const temp = await AsyncStorage.getItem('todo');
       // console.log('aaa', temp);
+
+      const temp = await Database.selectTable('todo');
+
       if (temp) {
-        setTodo(JSON.parse(temp));
+        //setTodo(JSON.parse(temp));
+        console.log(56789, temp);
       }
     } catch (error: any) {
       console.log(error);
@@ -253,7 +272,7 @@ const TodolistScreen = () => {
             })}
           </View> */}
       </View>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{
           alignSelf: 'flex-end',
           position: 'absolute',
@@ -264,7 +283,7 @@ const TodolistScreen = () => {
         }}
         onPress={() => navigator.navigate('AddTodoList')}>
         <Add size="32" color="white" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

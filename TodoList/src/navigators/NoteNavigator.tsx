@@ -2,8 +2,8 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import NoteScreen from '../screens/NoteScreen';
-import NoteDetail from '../components/note/NoteDetail';
-import AddNote from '../components/note/AddNote';
+import NoteDetail from '../screens/note/NoteDetail';
+import AddNote from '../screens/note/AddNote';
 
 const Stack = createNativeStackNavigator();
 

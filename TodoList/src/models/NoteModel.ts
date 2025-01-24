@@ -1,4 +1,5 @@
 export interface NoteModel {
-    id: number,
-    content: string,
+  id: number;
+  title: string;
+  content: string;
 }
