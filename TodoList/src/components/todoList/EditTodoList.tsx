@@ -2,6 +2,7 @@ import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {TodoListModel} from '../../models/TodoModel';
 import {CloseCircle, Save2} from 'iconsax-react-native';
+import {Database} from '../../helpers/database';
 
 interface Props {
   item: TodoListModel;
@@ -20,9 +21,19 @@ const EditTodoList: FC<Props> = props => {
   }, [item]);
   const saveData = () => {
     if (newContent) {
+      updateDb([newContent, item.status.toString()], item.id);
       saveEdit(item.id, newContent);
       cancelEdit();
     }
+  };
+
+  const updateDb = async (data: any[], id: number) => {
+    const result = await Database.updateTable(
+      'note',
+      data,
+      'content, status',
+      `WHERE id = "${id}"`,
+    );
   };
 
   return (

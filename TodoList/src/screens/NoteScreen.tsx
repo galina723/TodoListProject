@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, TextInput, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ShowNote from '../components/note/ShowNote';
+
 import {NoteModel} from '../models/NoteModel';
 import {Add} from 'iconsax-react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDebounce} from '../hook/UseDebounce';
+import NoteItem from '../components/note/NoteItem';
+import Snackbar from 'react-native-snackbar';
 
 const NoteScreen = () => {
   const navigator: any = useNavigation();
@@ -14,6 +17,41 @@ const NoteScreen = () => {
 
   const [note, setNote] = useState<NoteModel[]>([]);
   const [contentInput, setContentInput] = useState<string>('');
+  const [titleInput, setTitleInput] = useState<string>('');
+  const [controlText, setControlText] = useState(true);
+
+  const handleDebounce = useDebounce(contentInput, 500);
+
+  useEffect(() => {
+    handleSearch(handleDebounce);
+  }, [handleDebounce]);
+
+  const handleSearch = async (text: string) => {
+    const temp = await AsyncStorage.getItem('note');
+    if (temp) {
+      const temp1 = JSON.parse(temp);
+      if (text) {
+        const temp2 = temp1.filter((item: NoteModel) =>
+          item.content.includes(text),
+        );
+        setNote(temp2);
+      } else {
+        setNote(temp1);
+      }
+    }
+  };
+
+  //console.log(handleDebounce);
+
+  const handleText = (text: string) => {
+    setContentInput(text);
+    setControlText(!text);
+  };
+
+  const handleContent = () => {
+    setContentInput('');
+    setControlText(true);
+  };
 
   useEffect(() => {
     getNote();
@@ -26,6 +64,7 @@ const NoteScreen = () => {
         temp.unshift({
           id: Math.random(),
           content: contentInput,
+          title: '',
         });
         await AsyncStorage.setItem('note', JSON.stringify(temp));
         setContentInput('');
@@ -60,10 +99,50 @@ const NoteScreen = () => {
     try {
       await AsyncStorage.removeItem('note');
       setNote([]);
+      console.log(44444);
+      Snackbar.show({
+        text: 'Hello world',
+        duration: Snackbar.LENGTH_SHORT,
+      });
     } catch (error) {
       console.error('Error clearing all notes:', error);
     }
   };
+
+  const editNote = async (id: number, title: string, content: string) => {
+    try {
+      let temp = note.map(idd => {
+        return idd.id === id
+          ? {
+              ...idd,
+              title: title,
+              content: content,
+            }
+          : idd;
+      });
+      // console.log(id, content);
+      await AsyncStorage.setItem('note', JSON.stringify(temp));
+      setNote(temp);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const saveNewData = async (id: number) => {
+    let temp = note.map(idd => {
+      return idd.id == id
+        ? {
+            ...idd,
+            title: titleInput,
+            content: contentInput,
+          }
+        : idd;
+    });
+    await AsyncStorage.setItem('note', JSON.stringify(temp));
+    setNote(temp);
+  };
+
+  //console.log(controlText);
 
   return (
     <View style={{flex: 1, padding: 10, gap: 10}}>
@@ -77,14 +156,19 @@ const NoteScreen = () => {
             padding: 10,
           }}
           value={contentInput}
-          onChangeText={setContentInput}
-          placeholder="Add Note"
+          onChangeText={content => handleText(content)}
+          placeholder="Search..."
         />
-        <TouchableOpacity
-          onPress={addNote}
-          style={{backgroundColor: '#e7d7c9', padding: 10, borderRadius: 8}}>
-          <Text>Add</Text>
-        </TouchableOpacity>
+        {!controlText ? (
+          <TouchableOpacity
+            style={{padding: 10, borderRadius: 8}}
+            onPress={handleContent}>
+            <Text>X</Text>
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
+
         <TouchableOpacity
           onPress={removeAllData}
           style={{backgroundColor: '#e7d7c9', padding: 10, borderRadius: 8}}>
@@ -96,7 +180,11 @@ const NoteScreen = () => {
         keyExtractor={item => item.id.toString()}
         ItemSeparatorComponent={() => <View style={{height: 10}} />}
         renderItem={({item}) => (
-          <ShowNote item={item} removeSingleNote={removeSingleNote} />
+          <NoteItem
+            item={item}
+            removeSingleNote={removeSingleNote}
+            editNote={editNote}
+          />
         )}
       />
       <TouchableOpacity
