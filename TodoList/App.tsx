@@ -31,20 +31,20 @@ const App = () => {
   };
 
   const createDB = async () => {
-    await Database.createTable(
-      'user',
-      'id TEXT PRIMARY KEY, userName TEXT, fullName TEXT, pass TEXT',
-    );
+    await Database.createTable({
+      column: 'id TEXT PRIMARY KEY, userName TEXT, fullName TEXT, pass TEXT',
+      tableName: 'user',
+    });
 
-    await Database.createTable(
-      'note',
-      'id TEXT PRIMARY KEY, title TEXT, content TEXT, status TEXT',
-    );
+    await Database.createTable({
+      tableName: 'note',
+      column: 'id TEXT PRIMARY KEY, title TEXT, content TEXT, status TEXT',
+    });
 
-    await Database.createTable(
-      'todo',
-      'id TEXT PRIMARY KEY, content TEXT, status TEXT',
-    );
+    await Database.createTable({
+      tableName: 'todo',
+      column: 'id TEXT PRIMARY KEY, content TEXT, status TEXT',
+    });
   };
 
   useEffect(() => {

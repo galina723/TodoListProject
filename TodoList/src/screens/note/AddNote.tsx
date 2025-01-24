@@ -69,37 +69,42 @@ const AddNote = () => {
   };
 
   return (
-    <View style={{flexDirection: 'column', gap: 10}}>
-      <Text>Title</Text>
+    <View
+      style={{
+        flexDirection: 'column',
+        padding: 16,
+        gap: 16,
+        flex: 1,
+      }}>
       <TextInput
-        style={{backgroundColor: 'white', borderRadius: 10}}
+        placeholder="Enter your title"
+        style={{backgroundColor: 'transparent'}}
+        autoFocus
         onChangeText={handle1}
         value={titleInput}></TextInput>
-
-      <Text>Content</Text>
       <TextInput
         style={{
-          backgroundColor: 'white',
-          borderRadius: 10,
+          backgroundColor: 'transparent',
           height: 500,
           textAlignVertical: 'top',
         }}
+        placeholder="Enter your content"
         onChangeText={handle}
         value={contentInput}
         multiline></TextInput>
 
-      <View style={{flexDirection: 'row', gap: 10, justifyContent: 'flex-end'}}>
-        <TouchableOpacity
-          onPress={addNote}
-          style={{
-            alignSelf: 'flex-end',
-            padding: 10,
-            borderRadius: 40,
-            backgroundColor: 'orange',
-          }}>
-          <Add size="24" color="red" />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        onPress={addNote}
+        style={{
+          position: 'absolute',
+          bottom: 10,
+          right: 10,
+          borderRadius: 50,
+          backgroundColor: '#e7d7c9',
+          padding: 10,
+        }}>
+        <Add size="24" color="red" />
+      </TouchableOpacity>
     </View>
   );
 };

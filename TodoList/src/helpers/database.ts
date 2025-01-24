@@ -9,7 +9,13 @@ export class Database {
     return openDB;
   }
 
-  static async createTable(tableName: string, column: string) {
+  static async createTable({
+    tableName,
+    column,
+  }: {
+    tableName: string;
+    column: string;
+  }) {
     const open = await this.openDB();
 
     open.transaction(tx => {
