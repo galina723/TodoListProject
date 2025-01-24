@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {CommonActions, useNavigation, useRoute} from '@react-navigation/native';
 import {AccountModel} from '../../models/AccountModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LoadingScreen from '../../screens/LoadingScreen';
+import LoadingScreen from '../LoadingScreen';
 
 const Login = () => {
   const navigator: any = useNavigation();

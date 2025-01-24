@@ -5,6 +5,8 @@ import {Save2, CloseCircle, AddCircle} from 'iconsax-react-native';
 import {TodoListModel} from '../../models/TodoModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions, useNavigation} from '@react-navigation/native';
+import {Database} from '../../helpers/database';
+import Snackbar from 'react-native-snackbar';
 
 const AddTodoList = () => {
   const navigator: any = useNavigation();
@@ -39,6 +41,9 @@ const AddTodoList = () => {
           content: contentInput,
           status: false,
         });
+        const data1 = [contentInput, false];
+        //console.log(4567890);
+        await insertUserToDB(data1);
         await AsyncStorage.setItem('todo', JSON.stringify(parsedTodo));
         setContentInput('');
         navigator.dispatch(
@@ -56,6 +61,11 @@ const AddTodoList = () => {
     } catch (error: any) {
       console.log(error);
     }
+  };
+
+  const insertUserToDB = async (data: any[]) => {
+    const result = await Database.insertTable('todo', data, 'content, status');
+    console.log(55555);
   };
 
   const handle = (text: string) => {

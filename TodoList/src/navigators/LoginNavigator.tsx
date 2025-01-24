@@ -2,8 +2,8 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
-import Login from '../components/login/Login';
-import Register from '../components/login/Register';
+import Login from '../screens/login/Login';
+import Register from '../screens/login/Register';
 import TabNavigator from './TabNavigator';
 
 const Stack = createNativeStackNavigator();

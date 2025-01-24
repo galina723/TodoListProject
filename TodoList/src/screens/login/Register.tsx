@@ -4,6 +4,7 @@ import {AccountModel} from '../../models/AccountModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions, useNavigation, useRoute} from '@react-navigation/native';
 import {Back} from 'iconsax-react-native';
+import {Database} from '../../helpers/database';
 
 const Register = () => {
   const navigator: any = useNavigation();
@@ -39,6 +40,8 @@ const Register = () => {
             fullName: fullName,
             pass: pass,
           });
+          const data1 = [userName, userName, fullName, pass];
+          await insertUserToDB(data1);
           await AsyncStorage.setItem('user', JSON.stringify(temp));
           navigator.dispatch(
             CommonActions.reset({
@@ -60,6 +63,15 @@ const Register = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const insertUserToDB = async (data: any[]) => {
+    const result = await Database.insertTable(
+      'user',
+      data,
+      'id, userName, fullName, pass',
+    );
+    console.log(result);
   };
 
   return (

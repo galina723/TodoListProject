@@ -3,7 +3,7 @@ import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {HomeModel} from '../models/HomeModel';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
-import Login from '../components/login/Login';
+import Login from './login/Login';
 
 const LoginScreen = () => {
   return (
